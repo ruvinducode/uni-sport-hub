@@ -1,15 +1,47 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
+// Routes
+const authRoutes = require("./routes/authRoutes");
+const protectedRoutes = require("./routes/protectedRoutes");
+const approvalRoutes = require("./routes/approvalRoutes");
+
+// DB
+const connectDB = require("./config/db");
 
 const app = express();
+
+// =========================
+// CONNECT DATABASE
+// =========================
+connectDB();
+
+// =========================
+// MIDDLEWARE
+// =========================
 app.use(cors());
+app.use(express.json());
 
-const PORT = 5001;
+// =========================
+// ROUTES
+// =========================
+app.use("/api/auth", authRoutes);
+app.use("/api/protected", protectedRoutes);
+app.use("/api/approval", approvalRoutes);
 
+// =========================
+// ROOT ROUTE
+// =========================
 app.get("/", (req, res) => {
-  res.send("Uni Sport Hub backend is running");
+  res.send("🚀 Uni Sport Hub backend is running");
 });
 
+// =========================
+// SERVER START
+// =========================
+const PORT = process.env.PORT || 5001;
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🔥 Server is running on port ${PORT}`);
 });

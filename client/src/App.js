@@ -1,20 +1,60 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import AdminDashboard from "./pages/AdminDashboard";
+import CoachDashboard from "./pages/CoachDashboard";
+import SelectorDashboard from "./pages/SelectorDashboard";
+import PlayerDashboard from "./pages/PlayerDashboard";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:5001/")
-      .then((res) => res.text())
-      .then((data) => setMessage(data))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
-    <div>
-      <h1>Uni Sport Hub</h1>
-      <p>{message}</p>
-    </div>
+    <Router>
+      <Routes>
+
+        {/* Login */}
+        <Route path="/" element={<Login />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/coach"
+          element={
+            <ProtectedRoute>
+              <CoachDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/selector"
+          element={
+            <ProtectedRoute>
+              <SelectorDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/player"
+          element={
+            <ProtectedRoute>
+              <PlayerDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+    </Router>
   );
 }
 
