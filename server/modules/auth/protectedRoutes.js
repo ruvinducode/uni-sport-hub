@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { protect, authorizeRoles } = require("../middleware/authMiddleware");
-const User = require("../models/User");
+const { protect, authorizeRoles } = require("../../middleware/authMiddleware");
+const User = require("../user/User");
 
 // =========================
 // 🔐 PROFILE

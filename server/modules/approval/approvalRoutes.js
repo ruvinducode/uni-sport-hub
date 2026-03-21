@@ -12,10 +12,11 @@ const {
   getPendingPlayers,
   getPendingCoaches,
   getAllSelectors,
-  getSelectorApprovedCoaches   // 🔥 NEW
-} = require("../controllers/approvalController");
+  getSelectorApprovedCoaches,   // 🔥 NEW
+  getApprovedCoachesForPromotion
+} = require("./approvalController");
 
-const { protect, authorizeRoles } = require("../middleware/authMiddleware");
+const { protect, authorizeRoles } = require("../../middleware/authMiddleware");
 
 // =========================
 // 🧑‍🏫 APPROVE PLAYER
@@ -125,6 +126,16 @@ router.get(
   protect,
   authorizeRoles("admin"),
   getSelectorApprovedCoaches
+);
+
+// =========================
+// 👑 APPROVED COACHES FOR PROMOTION
+// =========================
+router.get(
+  "/coaches/approved",
+  protect,
+  authorizeRoles("admin"),
+  getApprovedCoachesForPromotion
 );
 
 module.exports = router;

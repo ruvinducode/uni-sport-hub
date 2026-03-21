@@ -1,6 +1,7 @@
-const User = require("../models/User");
+const User = require("../user/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { sendRegistrationStatusEmail } = require("../../utils/emailService");
 
 // 🔐 Generate Token (include isSelector)
 const generateToken = (user) => {
@@ -143,6 +144,8 @@ const registerUser = async (req, res) => {
     });
 
     // ✅ Response
+    await sendRegistrationStatusEmail(user);
+
     res.status(201).json({
       message: "Registration submitted",
       user: {

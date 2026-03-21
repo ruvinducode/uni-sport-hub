@@ -1,5 +1,9 @@
-const User = require("../models/User");
+const User = require("../user/User");
 const bcrypt = require("bcryptjs");
+const {
+  sendRegistrationStatusEmail,
+  sendSelectorRoleEmail
+} = require("../../utils/emailService");
 
 // =========================
 //  APPROVE PLAYER
@@ -18,6 +22,7 @@ exports.approvePlayer = async (req, res) => {
     player.approvedBy = req.user.id;
 
     await player.save();
+    await sendRegistrationStatusEmail(player);
 
     res.json({
       message: "Player approved successfully",
@@ -46,6 +51,7 @@ exports.rejectPlayer = async (req, res) => {
     player.rejectedBy = req.user.id;
 
     await player.save();
+    await sendRegistrationStatusEmail(player);
 
     res.json({
       message: "Player rejected",
@@ -74,6 +80,7 @@ exports.approveCoachBySelector = async (req, res) => {
     coach.approvedBy = req.user.id;
 
     await coach.save();
+    await sendRegistrationStatusEmail(coach);
 
     res.json({
       message: "Coach approved by selector",
@@ -109,6 +116,7 @@ exports.approveCoachByAdmin = async (req, res) => {
     coach.approvedBy = req.user.id;
 
     await coach.save();
+    await sendRegistrationStatusEmail(coach);
 
     res.json({
       message: "Coach fully approved",
@@ -137,6 +145,7 @@ exports.rejectCoach = async (req, res) => {
     coach.rejectedBy = req.user.id;
 
     await coach.save();
+    await sendRegistrationStatusEmail(coach);
 
     res.json({
       message: "Coach rejected",
@@ -188,6 +197,8 @@ exports.createSelector = async (req, res) => {
       selectorApproved: true
     });
 
+    await sendSelectorRoleEmail({ user: selector, mode: "created" });
+
     res.status(201).json({
       message: "Selector created successfully",
       selector: {
@@ -232,6 +243,7 @@ exports.promoteToSelector = async (req, res) => {
 
     coach.isSelector = true;
     await coach.save();
+    await sendSelectorRoleEmail({ user: coach, mode: "promoted" });
 
     res.json({
       message: "Coach promoted to selector 🎯",
@@ -242,6 +254,26 @@ exports.promoteToSelector = async (req, res) => {
       }
     });
 
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// =========================
+// 👑 GET APPROVED COACHES FOR PROMOTION
+// =========================
+exports.getApprovedCoachesForPromotion = async (req, res) => {
+  try {
+    const coaches = await User.find({
+      role: "coach",
+      status: "approved",
+      isSelector: false
+    }).select("-password");
+
+    res.json({
+      count: coaches.length,
+      coaches
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -274,7 +306,8 @@ exports.getPendingCoaches = async (req, res) => {
   try {
     const coaches = await User.find({
       role: "coach",
-      status: "pending"
+      status: "pending",
+      selectorApproved: false
     }).select("-password");
 
     res.json({
@@ -314,6 +347,7 @@ exports.getSelectorApprovedCoaches = async (req, res) => {
   try {
     const coaches = await User.find({
       role: "coach",
+      status: "pending",
       selectorApproved: true,
       adminApproved: false
     }).select("-password");

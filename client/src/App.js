@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login";
-import AdminDashboard from "./pages/AdminDashboard";
-import CoachDashboard from "./pages/CoachDashboard";
-import SelectorDashboard from "./pages/SelectorDashboard";
-import PlayerDashboard from "./pages/PlayerDashboard";
+import HomePage from "./pages/home/HomePage";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import CoachDashboard from "./pages/coach/CoachDashboard";
+import SelectorDashboard from "./pages/selector/SelectorDashboard";
+import PlayerDashboard from "./pages/player/PlayerDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -13,14 +15,18 @@ function App() {
     <Router>
       <Routes>
 
+        {/* Public Homepage */}
+        <Route path="/" element={<HomePage />} />
+
         {/* Login */}
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register/:role" element={<Register />} />
 
         {/* Protected Routes */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["admin"]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
@@ -29,7 +35,7 @@ function App() {
         <Route
           path="/coach"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["coach"]} selectorMode="coach">
               <CoachDashboard />
             </ProtectedRoute>
           }
@@ -38,7 +44,7 @@ function App() {
         <Route
           path="/selector"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["coach"]} selectorMode="selector">
               <SelectorDashboard />
             </ProtectedRoute>
           }
@@ -47,7 +53,7 @@ function App() {
         <Route
           path="/player"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["player"]}>
               <PlayerDashboard />
             </ProtectedRoute>
           }
