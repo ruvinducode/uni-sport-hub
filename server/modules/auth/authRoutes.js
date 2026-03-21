@@ -4,10 +4,10 @@ const router = express.Router();
 const {
   registerUser,
   loginUser
-} = require("../controllers/authController");
+} = require("./authController");
 
-const { protect } = require("../middleware/authMiddleware");
-const User = require("../models/User");
+const { protect } = require("../../middleware/authMiddleware");
+const User = require("../user/User");
 
 // =========================
 // 🔓 PUBLIC ROUTES

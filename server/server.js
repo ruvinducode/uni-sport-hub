@@ -3,9 +3,9 @@ const cors = require("cors");
 require("dotenv").config();
 
 // Routes
-const authRoutes = require("./routes/authRoutes");
-const protectedRoutes = require("./routes/protectedRoutes");
-const approvalRoutes = require("./routes/approvalRoutes");
+const authRoutes = require("./modules/auth/authRoutes");
+const protectedRoutes = require("./modules/auth/protectedRoutes");
+const approvalRoutes = require("./modules/approval/approvalRoutes");
 
 // DB
 const connectDB = require("./config/db");
