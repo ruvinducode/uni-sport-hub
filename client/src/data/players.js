@@ -1,0 +1,51 @@
+/**
+ * Sri Lankan–style mock player names for scorecards, lineups, and demos.
+ * Mix of common naming patterns — replace with API roster data later.
+ */
+
+export const PLAYER_NAMES = {
+  school: [
+    "Dinuka Perera",
+    "Kavishka Silva",
+    "Tharusha Fernando",
+    "Nethmina Rajapaksha",
+    "Pasindu Senanayake",
+    "Shenal Wijesinghe",
+    "Raveen Abeysekara",
+    "Sithum Jayawardena",
+    "Yohan de Silva",
+    "Keshan Rodrigo",
+    "Janith Bandara",
+    "Malith Karunaratne",
+    "Chamika Dissanayake",
+    "Hasitha Kumara",
+    "Ishan Maduranga",
+    "Naveen Lakmal",
+    "Prabath Peiris",
+    "Rashmika Alahakoon",
+    "Theekshana Herath",
+    "Vishwa Ranasinghe",
+  ],
+  university: [
+    "Akila Gunawardana",
+    "Binura Rathnayake",
+    "Chathura Ekanayake",
+    "Duminda Wickramasinghe",
+    "Eranga Pushpakumara",
+    "Fahim Nizam",
+    "Gayan Samaraweera",
+    "Hiranya Liyanage",
+    "Isuru Bandara",
+    "Jude Anthony",
+    "Kalhara Weerasinghe",
+    "Lahiru Attanayake",
+    "Madhushan Pathiraja",
+    "Nimantha Rajakaruna",
+    "Oshada Fernando",
+    "Praveen Thilakarathne",
+    "Ravindu Madushanka",
+    "Sajith Mendis",
+    "Thilina Gamage",
+    "Udara Nanayakkara",
+  ],
+};
