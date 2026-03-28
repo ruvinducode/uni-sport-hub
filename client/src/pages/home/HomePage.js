@@ -237,12 +237,7 @@ function HomePage() {
   ];
 
   const services = [
-<<<<<<< HEAD
-    { title: "School & university scoreboards", desc: "Big matches, Dialog Schools Rugby, and SLUG fixtures in one place.", accent: "from-emerald-600 to-lime-600" },
-    { title: "Coach discovery by district", desc: "Find student coaches across Sri Lanka — schools and campus sport.", accent: "from-emerald-600 to-teal-600" },
-    { title: "Player-friendly workflows", desc: "Built for school athletes and university teams — clear, local context.", accent: "from-amber-500 to-orange-600" },
-    { title: "Tickets & match week", desc: "Demo ticketing for showcase matches — Colombo, Galle, Kandy.", accent: "from-slate-900 to-slate-700" },
-=======
+
     { title: "Role-based dashboards", desc: "Players, coaches, selectors, and admins see what matters—securely.", accent: "from-emerald-600 to-lime-600" },
     { title: "Approvals & registration flow", desc: "Coach + selector + admin decisions with clear status.", accent: "from-emerald-600 to-teal-600" },
     { title: "Performance tracking", desc: "Build a measurable sports profile and improve with feedback.", accent: "from-amber-500 to-orange-600" },
@@ -254,7 +249,6 @@ function HomePage() {
       to: "/marketplace",
       cta: "Explore",
     },
->>>>>>> 3e7146e (Completed Samadhi's feature)
   ];
 
   return (
@@ -476,48 +470,8 @@ function HomePage() {
         </div>
       </section>
 
-<<<<<<< HEAD
-      {/* Southern schools spotlight */}
-      <section className="border-y border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <SectionHeading
-            kicker="Southern schools"
-            title="Galle & Mahinda College watch"
-            subtitle="Lovers' Quarrel week, coastal venues, and southern school sport culture — Richmond vs Mahinda remains a headline fixture."
-          />
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
-              <p className="text-xs font-extrabold uppercase tracking-wider text-slate-500">Featured big match</p>
-              <p className="mt-2 text-lg font-extrabold text-slate-900">Richmond College vs Mahinda College</p>
-              <p className="mt-2 text-sm font-semibold text-slate-600">
-                One day encounter at Galle International Stadium — follow build-up, squads, and scoreboard tabs like a real big match week.
-              </p>
-              <Link
-                to="/scoreboard/sb_m_upcoming_cricket"
-                className="mt-4 inline-flex rounded-2xl bg-slate-900 px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-slate-800"
-              >
-                Open score center
-              </Link>
-            </div>
-            <div className="rounded-3xl border border-emerald-200 bg-emerald-50/60 p-6 shadow-sm">
-              <p className="text-xs font-extrabold uppercase tracking-wider text-emerald-800">President's Trophy & schools rugby</p>
-              <p className="mt-2 text-lg font-extrabold text-slate-900">Knockouts across the island</p>
-              <p className="mt-2 text-sm font-semibold text-slate-600">
-                Dialog Schools Rugby and hill-country fixtures — see live cards, timelines, and campus-style stats on the scoreboard.
-              </p>
-              <Link
-                to="/scoreboard"
-                className="mt-4 inline-flex rounded-2xl border border-emerald-600 bg-white px-5 py-2.5 text-sm font-extrabold text-emerald-900 shadow-sm transition hover:bg-emerald-50"
-              >
-                Browse live school & campus matches
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-=======
+
       <HomeMarketplaceCarousel />
->>>>>>> 3e7146e (Completed Samadhi's feature)
 
       {/* Sports */}
       <section id="sports" className="bg-white">

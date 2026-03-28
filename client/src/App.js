@@ -50,17 +50,14 @@ function App() {
           <Route path="/coaches/:coachId/book" element={<BookingPage />} />
           <Route path="/saved-coaches" element={<SavedCoachesPage />} />
 
-<<<<<<< HEAD
-          <Route path="/login" element={<Login />} />
-          <Route path="/register/:role" element={<Register />} />
-=======
+
         {/* Marketplace (public browsing) */}
         <Route path="/marketplace" element={<MarketplacePage />} />
 
         {/* Login */}
         <Route path="/login" element={<Login />} />
         <Route path="/register/:role" element={<Register />} />
->>>>>>> 3e7146e (Completed Samadhi's feature)
+
 
           <Route path="/matches" element={<MatchListPage />} />
           <Route path="/matches/:matchId" element={<TicketMatchDetailPage />} />
