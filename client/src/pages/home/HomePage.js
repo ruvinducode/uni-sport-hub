@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import HomeNavbar from "../../components/HomeNavbar";
 import HomeArenaBackground from "../../components/HomeArenaBackground";
+import BrandLogo from "../../components/BrandLogo";
+import { MARKETPLACE_STORE_PRODUCTS } from "../../data/marketplaceStoreProducts";
 
 function SectionHeading({ kicker, title, subtitle }) {
   return (
@@ -63,6 +65,132 @@ function SportIcon({ type }) {
   );
 }
 
+function HomeMarketplaceCarousel() {
+  const scrollerRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const items = useMemo(() => MARKETPLACE_STORE_PRODUCTS.slice(0, 10), []);
+
+  const updateScrollButtons = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    const maxScroll = scrollWidth - clientWidth;
+    setCanScrollLeft(scrollLeft > 2);
+    setCanScrollRight(maxScroll > 2 && scrollLeft < maxScroll - 2);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return undefined;
+    updateScrollButtons();
+    el.addEventListener("scroll", updateScrollButtons, { passive: true });
+    const ro = new ResizeObserver(() => updateScrollButtons());
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", updateScrollButtons);
+      ro.disconnect();
+    };
+  }, [updateScrollButtons]);
+
+  const scrollByDirection = (direction) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const step = Math.max(280, Math.floor(el.clientWidth * 0.75));
+    el.scrollBy({
+      left: direction === "left" ? -step : step,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <section id="marketplace" className="border-y border-slate-200/80 bg-gradient-to-b from-white via-slate-50/80 to-slate-50">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0 flex-1">
+            <SectionHeading
+              kicker="Marketplace"
+              title="Campus listings & sports gear"
+              subtitle="Jackets, bangles, stationary, and accessories from students and clubs — scroll sideways with the arrows."
+            />
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/90 p-1.5 shadow-sm backdrop-blur">
+              <button
+                type="button"
+                aria-label="Scroll marketplace left"
+                disabled={!canScrollLeft}
+                onClick={() => scrollByDirection("left")}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm transition hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-35"
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Scroll marketplace right"
+                disabled={!canScrollRight}
+                onClick={() => scrollByDirection("right")}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-800 shadow-sm transition hover:bg-slate-50 disabled:pointer-events-none disabled:opacity-35"
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <Link
+              to="/marketplace"
+              className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-slate-700"
+            >
+              View full marketplace
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div
+            ref={scrollerRef}
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pt-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {items.map((p) => (
+              <Link
+                key={p.id}
+                to="/marketplace"
+                className="group flex w-[min(280px,calc(100vw-3rem))] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                  />
+                  <span className="absolute right-2 top-2 rounded-full border border-white/30 bg-white/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-800 backdrop-blur">
+                    {p.category}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-4">
+                  <div className="line-clamp-2 text-sm font-extrabold text-slate-900">{p.name}</div>
+                  <div className="mt-1 text-xs font-semibold text-slate-500">{p.sport}</div>
+                  <div className="mt-3 flex items-center justify-between gap-2">
+                    <span className="text-lg font-extrabold text-emerald-700">
+                      Rs. {Number(p.price).toLocaleString("en-LK")}
+                    </span>
+                    <span className="rounded-xl bg-slate-900 px-3 py-1.5 text-[11px] font-extrabold text-white transition group-hover:bg-slate-700">
+                      Shop
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const [matchTick, setMatchTick] = useState(0);
   const [activeSport, setActiveSport] = useState("football");
@@ -109,10 +237,24 @@ function HomePage() {
   ];
 
   const services = [
+<<<<<<< HEAD
     { title: "School & university scoreboards", desc: "Big matches, Dialog Schools Rugby, and SLUG fixtures in one place.", accent: "from-emerald-600 to-lime-600" },
     { title: "Coach discovery by district", desc: "Find student coaches across Sri Lanka — schools and campus sport.", accent: "from-emerald-600 to-teal-600" },
     { title: "Player-friendly workflows", desc: "Built for school athletes and university teams — clear, local context.", accent: "from-amber-500 to-orange-600" },
     { title: "Tickets & match week", desc: "Demo ticketing for showcase matches — Colombo, Galle, Kandy.", accent: "from-slate-900 to-slate-700" },
+=======
+    { title: "Role-based dashboards", desc: "Players, coaches, selectors, and admins see what matters—securely.", accent: "from-emerald-600 to-lime-600" },
+    { title: "Approvals & registration flow", desc: "Coach + selector + admin decisions with clear status.", accent: "from-emerald-600 to-teal-600" },
+    { title: "Performance tracking", desc: "Build a measurable sports profile and improve with feedback.", accent: "from-amber-500 to-orange-600" },
+    { title: "Live match scores", desc: "Real-time updates for matches and selection matches.", accent: "from-slate-900 to-slate-700" },
+    {
+      title: "Marketplace",
+      desc: "Buy jerseys, bangles, stationery, and Uni Sport Hub gear from the campus store.",
+      accent: "from-violet-600 to-emerald-600",
+      to: "/marketplace",
+      cta: "Explore",
+    },
+>>>>>>> 3e7146e (Completed Samadhi's feature)
   ];
 
   return (
@@ -293,8 +435,8 @@ function HomePage() {
           title="Built for Sri Lankan student sports"
           subtitle="School rivalries, university championships, and local coach discovery — structured for demos and future campus rollout."
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, idx) => (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {services.map((s) => (
             <div
               key={s.title}
               className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
@@ -307,21 +449,34 @@ function HomePage() {
                 <p className="mt-2 text-sm text-slate-600">
                   {s.desc}
                 </p>
-                <button
-                  type="button"
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-slate-900 opacity-90"
-                >
-                  Learn more
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+                {s.to ? (
+                  <Link
+                    to={s.to}
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-slate-900 opacity-90 transition hover:opacity-100"
+                  >
+                    {s.cta || "Explore"}
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-slate-900 opacity-90"
+                  >
+                    Learn more
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden>
+                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Southern schools spotlight */}
       <section className="border-y border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -360,6 +515,9 @@ function HomePage() {
           </div>
         </div>
       </section>
+=======
+      <HomeMarketplaceCarousel />
+>>>>>>> 3e7146e (Completed Samadhi's feature)
 
       {/* Sports */}
       <section id="sports" className="bg-white">
@@ -648,7 +806,7 @@ function ContactForm() {
 
       <aside className="lg:col-span-2 rounded-3xl border border-slate-200 bg-white/60 p-7 shadow-sm">
         <div className="inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/70 px-4 py-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-600 to-lime-600" />
+          <BrandLogo className="rounded-xl bg-white shadow-sm ring-1 ring-slate-200/80" />
           <div>
             <div className="text-sm font-extrabold text-slate-900">
               Support Team

@@ -4,6 +4,7 @@ import { TicketProvider } from "./context/TicketContext";
 import { ScoreboardProvider } from "./context/ScoreboardContext";
 
 import HomePage from "./pages/home/HomePage";
+import MarketplacePage from "./pages/marketplace/MarketplacePage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -49,8 +50,17 @@ function App() {
           <Route path="/coaches/:coachId/book" element={<BookingPage />} />
           <Route path="/saved-coaches" element={<SavedCoachesPage />} />
 
+<<<<<<< HEAD
           <Route path="/login" element={<Login />} />
           <Route path="/register/:role" element={<Register />} />
+=======
+        {/* Marketplace (public browsing) */}
+        <Route path="/marketplace" element={<MarketplacePage />} />
+
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register/:role" element={<Register />} />
+>>>>>>> 3e7146e (Completed Samadhi's feature)
 
           <Route path="/matches" element={<MatchListPage />} />
           <Route path="/matches/:matchId" element={<TicketMatchDetailPage />} />

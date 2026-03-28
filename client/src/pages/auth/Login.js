@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BrandLogo from "../../components/BrandLogo";
 
 function Login() {
   const [form, setForm] = useState({
@@ -76,7 +77,6 @@ function Login() {
         "linear-gradient(90deg, transparent 49.6%, rgba(250,204,21,0.60) 50%, transparent 50.4%)",
       pitchBackgroundSize: "auto, auto, auto, 100% 100%",
       buttonGradient: "from-blue-600 via-indigo-600 to-violet-600",
-      brandGradient: "from-sky-400 to-indigo-400",
       roleSubtitle: "Football pace with clear decisions.",
       featureA: "Football pace with clean approvals.",
     },
@@ -100,7 +100,6 @@ function Login() {
         "radial-gradient(circle at 50% 38%, rgba(248,113,113,0.18) 0%, transparent 48%)",
       pitchBackgroundSize: "auto, auto, auto, 100% 100%, auto",
       buttonGradient: "from-emerald-700 via-amber-500 to-rose-600",
-      brandGradient: "from-emerald-400 to-amber-300",
       roleSubtitle: "Rugby intensity with clean approvals.",
       featureA: "Rugby intensity with clean approvals.",
     },
@@ -124,81 +123,12 @@ function Login() {
         "radial-gradient(circle at 50% 50%, rgba(191,146,74,0.40) 0%, transparent 55%)",
       pitchBackgroundSize: "auto, auto, auto, 100% 100%, auto",
       buttonGradient: "from-amber-500 via-lime-500 to-emerald-600",
-      brandGradient: "from-amber-400 to-lime-400",
       roleSubtitle: "Cricket precision with selection clarity.",
       featureA: "Cricket precision with selection clarity.",
     },
   };
 
   const t = themes[theme] || themes.football;
-
-  const SportIcon = () => {
-    if (theme === "rugby") {
-      return (
-        <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M14.5 3.5c2.4.7 4.1 2.9 4 5.4-.1 2.1-1.3 3.8-2.9 5.2-2.3 2-4.6 4.4-5.7 6-1.1-.7-2.2-1.8-2.9-2.9 1.7-1.1 4-3.4 6-5.7 1.4-1.6 3.1-2.8 5.2-2.9 2.5-.1 4.7 1.6 5.4 4-1 .6-2.6.3-3.7-.3-1.3-.7-2.4-1.9-3.1-3.2-.6-1.1-.9-2.7-.3-3.7Z"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            opacity="0.95"
-          />
-          <path
-            d="M10 14l4-4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            opacity="0.8"
-          />
-        </svg>
-      );
-    }
-
-    if (theme === "cricket") {
-      return (
-        <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M7.5 20.5c3-1.5 6-4.5 7.8-8.1 1-2 .9-3.7-.3-4.9-1.2-1.2-3-1.2-4.9-.3C6.5 9 3.5 12 2 15c1.8 3.1 3.6 4 5.5 5.5Z"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            opacity="0.9"
-          />
-          <path
-            d="M14.5 3.5l6 2-2 6-6-2 2-6Z"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            opacity="0.7"
-          />
-          <path
-            d="M6.5 18.2l1.3-1.3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            opacity="0.85"
-          />
-        </svg>
-      );
-    }
-
-    return (
-      <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" opacity="0.95" />
-        <path
-          d="M8.2 9.3 12 12l3.8-2.7M7.6 14.1 12 12l4.4 2.1"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-          opacity="0.9"
-        />
-        <path
-          d="M9 6.8 12 12l-3 5.2M15 6.8 12 12l3 5.2"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinejoin="round"
-          opacity="0.65"
-        />
-      </svg>
-    );
-  };
 
   const StickPlayer = ({ className, color, style }) => {
     return (
@@ -442,11 +372,7 @@ function Login() {
         <aside className="relative flex flex-1 flex-col justify-center px-8 py-16 sm:px-12 lg:px-16 xl:px-24">
           <div className="max-w-lg animate-fade-in-up opacity-0 [animation-fill-mode:forwards]">
             <div className="mb-8 inline-flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-white/60 px-4 py-2 backdrop-blur-md">
-              <span
-                className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${t.brandGradient} shadow-lg shadow-blue-500/30`}
-              >
-                <SportIcon />
-              </span>
+              <BrandLogo className="h-10 w-10 shrink-0 rounded-xl border border-slate-200/70 bg-white/95 p-0.5 shadow-lg shadow-slate-900/10" />
               <span className="text-sm font-medium tracking-wide text-slate-700/90">
                 Uni Sport Hub
               </span>

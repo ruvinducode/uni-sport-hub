@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import BrandLogo from "./BrandLogo";
 
 function HomeNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -9,6 +10,7 @@ function HomeNavbar() {
   const items = [
     { label: "Home", id: "home" },
     { label: "Services", id: "services" },
+    { label: "Marketplace", id: "marketplace" },
     { label: "Sports", id: "sports" },
     { label: "Matches", id: "matches" },
     { label: "News", id: "news" },
@@ -47,7 +49,11 @@ function HomeNavbar() {
           onClick={() => scrollToId("home")}
           className="flex items-center gap-3"
         >
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-600 to-lime-600 shadow-md" />
+          <BrandLogo
+            className={`rounded-xl shadow-md ${
+              scrolled ? "ring-1 ring-slate-200/90 bg-white/95" : "ring-1 ring-white/25 bg-white/10 drop-shadow-md"
+            }`}
+          />
           <div className="text-left">
             <div
               className={`text-sm font-extrabold tracking-tight ${

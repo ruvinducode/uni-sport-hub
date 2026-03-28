@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import BrandLogo from "./BrandLogo";
 
 function Navbar() {
   const token = localStorage.getItem("token");
@@ -24,7 +25,7 @@ function Navbar() {
     <header className="sticky top-0 z-20 border-b border-slate-200/70 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md" />
+          <BrandLogo className="rounded-xl bg-white shadow-md ring-1 ring-slate-200/90" />
           <div>
             <h1 className="text-lg font-semibold text-slate-900">Uni Sport Hub</h1>
             <p className="text-xs text-slate-500">University Sports Management Portal</p>
